@@ -54,8 +54,8 @@ gulp.task('hint:js', function() {
   return gulp.src(['./app/js/*.js', '!./app/js/vendor/*'])
     .pipe(notifyError())
     .pipe(jshint())
-    .pipe(jshint.reporter('fail'))
-    .pipe(jshint.reporter('jshint-stylish'));
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('hint:html', function() {
