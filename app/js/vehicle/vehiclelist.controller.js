@@ -4,19 +4,29 @@
 
   angular.module('Vehicles')
 
-  .controller('VehicleList', ['$scope', '$http', 'PARSE',
+  .controller('VehicleList', ['$scope', 'VehicleService', '$rootScope',
 
-    function ($scope, $http, PARSE) {
+    function ($scope, VehicleService, $rootScope) {
 
-    $scope.title = "My Vehicles";
+      // Call method to get all vehicles
+      VehicleService.getCars();
 
-    $scope.vehicleList = [];
+      $rootScope.$on('AllCarsGotten', function (event, data) {
+        $scope.vehicleList = data.results;
+      
+      });
 
-    $http.get(PARSE.URL + '/classes/vehicle', PARSE.CONFIG)
-    .success(function (data) {
-      $scope.vehicleList = data.results;
-    });
+    $scope.deleteCar = function (whichOne) {
 
-  }]);
+      VehicleService.deleteCar(whichOne).success(function() {
+
+      $scope.vehicleList = _.without($scope.vehicleList, whichOne);
+      
+      });
+      
+      };
+    }
+
+  ]);
 
 }());

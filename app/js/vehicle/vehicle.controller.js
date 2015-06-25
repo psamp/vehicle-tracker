@@ -4,35 +4,24 @@
 
   angular.module('Vehicles')
 
-  .controller('Vehicle', ['$scope', '$http', 'PARSE', '$location',
+  .controller('Vehicle', ['$scope', 'VehicleService', '$location',
 
-    function ($scope, $http, PARSE, $location) {
-
-    // List of Vehicles
-
-    $scope.vehicleList = [];
-
-    // Vehicle Constructor
-
-    var Vehicle = function (options) {
-      this.make = options.make;
-      this.model = options.model;
-      this.year = options.year;
-    };
+    function ($scope, VehicleService, $location) {
 
     $scope.addVehicle = function (x) {
-      var car = new Vehicle(x);
-      $http.post(PARSE.URL + 'classes/vehicle', car, PARSE.CONFIG)
-      .success( function () {
-        
+
+      VehicleService.addCar(x).success( function () {
+
+        console.log(x);
+
         // Route Home
-
         $location.path('/');
-
         $scope.car = {};
 
       });
+
     };
+
   }]);
 
 }());
